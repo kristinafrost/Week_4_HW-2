@@ -76,6 +76,10 @@
                             <color key="backgroundColor" red="0.86481386423110962" green="0.88953542709350586" blue="0.88826590776443481" alpha="0.63933919270833328" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                     </subviews>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="tqk-7o-Aio" appends="YES" id="zcV-ul-Kgg"/>
+                    </connections>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -110,6 +114,11 @@
         <panGestureRecognizer minimumNumberOfTouches="1" id="dP1-WT-6jH" userLabel="Biker Pan Gesture Recognizer">
             <connections>
                 <action selector="onPan:" destination="-1" id="GGi-un-PWA"/>
+            </connections>
+        </panGestureRecognizer>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="tqk-7o-Aio">
+            <connections>
+                <action selector="onDrawerPan:" destination="-1" id="Dmq-Lt-6As"/>
             </connections>
         </panGestureRecognizer>
     </objects>

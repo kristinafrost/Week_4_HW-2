@@ -16,6 +16,7 @@
 @property (nonatomic) UIPanGestureRecognizer *stickerPanGesture;
 @property (nonatomic) UIPinchGestureRecognizer *stickerPinchGesture;
 @property (nonatomic) UIRotationGestureRecognizer *stickerRotateGesture;
+- (IBAction)onDrawerPan:(UIPanGestureRecognizer *)sender;
 
 - (void)stickerDidPan:(UIPanGestureRecognizer *)panGesture;
 - (void)stickerDidPinch:(UIPinchGestureRecognizer *)pinchGesture;
@@ -25,11 +26,15 @@
 
 @implementation ViewController
 
+float startingPanYPosition;
+float distancePanned;
+float currentSwipeViewYPosition;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+    
     }
     return self;
 }
@@ -37,7 +42,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
     self.drawerScrollView.contentSize = CGSizeMake(640, 70);
     
@@ -51,7 +55,15 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (otherGestureRecognizer == self.drawerScrollView.panGestureRecognizer) {
+        return YES;
+    }
+    return NO;
+    
 }
 
 - (IBAction)onPan:(UIPanGestureRecognizer *)sender {
@@ -63,11 +75,10 @@
         
         self.duplicateView = [[UIImageView alloc] init];
         self.duplicateView.image = [(UIImageView *)sender.view image];
-        CGRect frame = CGRectMake(0, 0, sender.view.frame.size.width * 5, sender.view.frame.size.height * 5);
+        CGRect frame = CGRectMake(0, 0, sender.view.frame.size.width * 3, sender.view.frame.size.height * 3);
         
         NSLog(@"scroll x offset %f",self.drawerScrollView.contentOffset.x);
-        //frame.origin.y += self.drawerScrollView.frame.origin.y;
-        //frame.origin.x = frame.origin.x - self.drawerScrollView.contentOffset.x;
+        
         self.duplicateView.frame = frame;
         self.duplicateView.center = location;
         
@@ -79,10 +90,7 @@
         
         [self.duplicateView setUserInteractionEnabled:YES];
         
-        
-        
     }
-    
     
     else if(sender.state == UIGestureRecognizerStateChanged) {
         //NSLog(@"Location (%f,%f) Translation (%f, %f)", location.x, location.y, translation.x, translation.y);
@@ -95,8 +103,70 @@
         
     }
     
-    
 }
+
+- (IBAction)onDrawerPan:(UIPanGestureRecognizer *)sender {
+    
+        CGPoint point = [sender locationInView:self.view];
+        CGPoint velocity = [sender velocityInView:self.view];
+        
+        CGRect frame = self.drawerView.frame;
+        
+        //news horizontally scrolls!
+        self.drawerScrollView.contentSize = self.drawerView.frame.size;
+        [self.drawerScrollView setScrollEnabled:true];
+        
+        
+        //begin panning stuffs
+        if (sender.state == UIGestureRecognizerStateBegan) {
+            float startingHeight = self.drawerView.frame.origin.y;
+            startingPanYPosition = point.y;
+            currentSwipeViewYPosition = startingHeight;
+            
+        }
+        
+        //panning continues stuffs
+        else if (sender.state == UIGestureRecognizerStateChanged) {
+            
+            distancePanned = point.y - startingPanYPosition;
+            frame.origin.y = currentSwipeViewYPosition + distancePanned;
+            
+            if (frame.origin.y > 500) {
+                frame.origin.y = 500;
+            }
+            
+            //if (frame.origin.y < 0) {
+                frame.origin.y = frame.origin.y/100;
+            //}
+            
+            self.drawerView.frame = frame;
+            
+        }
+        
+        //panning ends stuffs
+        else if (sender.state == UIGestureRecognizerStateEnded) {
+            
+            if (velocity.y >= 0) {
+                frame.origin.y = 500;
+                [UIView animateWithDuration:.7 delay:0 usingSpringWithDamping:.9 initialSpringVelocity:0 options:0
+                                 animations:^{
+                                     self.drawerView.frame = frame;
+                                 } completion:nil];
+            }
+            
+            else if (velocity.y <= 0) {
+                frame.origin.y = 0;
+                [UIView animateWithDuration:.3 delay:0 usingSpringWithDamping:.4 initialSpringVelocity:0 options:0
+                                 animations:^{
+                                     self.drawerView.frame = frame;
+                                 } completion:nil];
+                
+            }
+            
+        }
+        
+    }
+
 
 - (void)stickerDidPan:(UIPanGestureRecognizer *)panGesture {
     NSLog(@"panning sticker");
@@ -129,10 +199,8 @@
     if(pinchGesture.state == UIGestureRecognizerStateChanged) {
         
         pinchGesture.view.transform = CGAffineTransformMakeScale(scale, scale);
-        //CGAffineTransform myTransform = CGA
         
      
-        
     } if (pinchGesture.state == UIGestureRecognizerStateEnded) {
         
     }
@@ -143,11 +211,9 @@
     
     CGFloat rotate = rotateGesture.rotation;
     
-    
     if(rotateGesture.state == UIGestureRecognizerStateChanged) {
         
         rotateGesture.view.transform = CGAffineTransformMakeRotation(rotate);
-        
         
     } if (rotateGesture.state == UIGestureRecognizerStateEnded) {
         
