@@ -44,6 +44,8 @@
     self.stickerPanGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(stickerDidPan:)];
     
     self.stickerPinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(stickerDidPinch:)];
+    
+    self.stickerRotateGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(stickerDidRotate:)];
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,20 +57,26 @@
 - (IBAction)onPan:(UIPanGestureRecognizer *)sender {
     
     CGPoint translation = [sender translationInView:self.view];
+    CGPoint location = [sender locationInView:self.view];
     
     if (sender.state == UIGestureRecognizerStateBegan) {
         
         self.duplicateView = [[UIImageView alloc] init];
         self.duplicateView.image = [(UIImageView *)sender.view image];
-        CGRect frame = sender.view.frame;
-        frame.size.width = frame.size.width * 5;
-        frame.size.height = frame.size.height * 5;
-        frame.origin.y += self.drawerScrollView.frame.origin.y;
+        CGRect frame = CGRectMake(0, 0, sender.view.frame.size.width * 5, sender.view.frame.size.height * 5);
+        
+        NSLog(@"scroll x offset %f",self.drawerScrollView.contentOffset.x);
+        //frame.origin.y += self.drawerScrollView.frame.origin.y;
+        //frame.origin.x = frame.origin.x - self.drawerScrollView.contentOffset.x;
         self.duplicateView.frame = frame;
+        self.duplicateView.center = location;
         
         [self.view addSubview:self.duplicateView];
+        
         [self.duplicateView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(stickerDidPan:)]];
         [self.duplicateView addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(stickerDidPinch:)]];
+        [self.duplicateView addGestureRecognizer:[[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(stickerDidRotate:)]];
+        
         [self.duplicateView setUserInteractionEnabled:YES];
         
         
@@ -83,7 +91,7 @@
         [sender setTranslation:CGPointMake(0, 0) inView:self.view];
         
     } else if (sender.state == UIGestureRecognizerStateEnded) {
-        //UIImageView *view;
+        NSLog(@"Location (%f,%f) Translation (%f, %f)", location.x, location.y, translation.x, translation.y);
         
     }
     
@@ -101,7 +109,10 @@
         [panGesture setTranslation:CGPointMake(0, 0) inView:self.view];
         
     } if (panGesture.state == UIGestureRecognizerStateEnded) {
-        //UIImageView *view;
+
+        
+        [self.view bringSubviewToFront:self.drawerScrollView];
+        
         
     }
     
@@ -114,20 +125,36 @@
     // use the scale of the pinchGesture
     CGFloat scale = pinchGesture.scale;
     
-    // pinch gesture does not have translation!
-    //CGPoint translation = [pinchGesture translationInView:self.view];
     
     if(pinchGesture.state == UIGestureRecognizerStateChanged) {
         
         pinchGesture.view.transform = CGAffineTransformMakeScale(scale, scale);
+        //CGAffineTransform myTransform = CGA
         
-        //pinchGesture.view.center = CGPointMake(pinchGesture.view.center.x + translation.x, pinchGesture.view.center.y + translation.y);
-        //[pinchGesture setTranslation:CGPointMake(0, 0) inView:self.view];
+     
         
     } if (pinchGesture.state == UIGestureRecognizerStateEnded) {
-        //UIImageView *view;
         
     }
+
 }
+
+- (void)stickerDidRotate:(UIRotationGestureRecognizer *)rotateGesture {
+    
+    CGFloat rotate = rotateGesture.rotation;
+    
+    
+    if(rotateGesture.state == UIGestureRecognizerStateChanged) {
+        
+        rotateGesture.view.transform = CGAffineTransformMakeRotation(rotate);
+        
+        
+    } if (rotateGesture.state == UIGestureRecognizerStateEnded) {
+        
+    }
+    
+}
+
+
 
 @end
