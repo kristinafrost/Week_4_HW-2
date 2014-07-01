@@ -19,6 +19,8 @@
 		447DA2B919607EBA00A60E91 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 447DA2A119607EBA00A60E91 /* UIKit.framework */; };
 		447DA2C119607EBA00A60E91 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 447DA2BF19607EBA00A60E91 /* InfoPlist.strings */; };
 		447DA2C319607EBA00A60E91 /* Week_4_HW_2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 447DA2C219607EBA00A60E91 /* Week_4_HW_2Tests.m */; };
+		447DA2CF19607EF800A60E91 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 447DA2CD19607EF800A60E91 /* ViewController.m */; };
+		447DA2D019607EF800A60E91 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 447DA2CE19607EF800A60E91 /* ViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,9 @@
 		447DA2BE19607EBA00A60E91 /* Week_4_HW-2Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Week_4_HW-2Tests-Info.plist"; sourceTree = "<group>"; };
 		447DA2C019607EBA00A60E91 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		447DA2C219607EBA00A60E91 /* Week_4_HW_2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Week_4_HW_2Tests.m; sourceTree = "<group>"; };
+		447DA2CC19607EF800A60E91 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		447DA2CD19607EF800A60E91 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		447DA2CE19607EF800A60E91 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +82,9 @@
 		447DA29119607EB900A60E91 = {
 			isa = PBXGroup;
 			children = (
+				447DA2CC19607EF800A60E91 /* ViewController.h */,
+				447DA2CD19607EF800A60E91 /* ViewController.m */,
+				447DA2CE19607EF800A60E91 /* ViewController.xib */,
 				447DA2A319607EBA00A60E91 /* Week_4_HW-2 */,
 				447DA2BC19607EBA00A60E91 /* Week_4_HW-2Tests */,
 				447DA29C19607EBA00A60E91 /* Frameworks */,
@@ -220,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				447DA2A819607EBA00A60E91 /* InfoPlist.strings in Resources */,
+				447DA2D019607EF800A60E91 /* ViewController.xib in Resources */,
 				447DA2B019607EBA00A60E91 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -239,6 +248,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				447DA2CF19607EF800A60E91 /* ViewController.m in Sources */,
 				447DA2AE19607EBA00A60E91 /* AppDelegate.m in Sources */,
 				447DA2AA19607EBA00A60E91 /* main.m in Sources */,
 			);
