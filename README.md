@@ -5,7 +5,7 @@ Homework 4
 * **How many hours did it take to complete?**
   * ***18***
 * **Which required and optional stories have you completed?**
-  * :white_large_square: Implement scrollable tray of images
+  * :white_check_mark: Implement scrollable tray of images
     * :white_check_mark: You should be able to drag the tray up or down.
     * :white_check_mark: Once the tray is revealed, you shouldn't be able to drag it any more.
     * :white_check_mark: After releasing the tray, it should either move to its hidden position or its revealed position.
@@ -17,4 +17,4 @@ Homework 4
     * :white_large_square: *Optional*: After taking a picture, the picture is added to the view as a background view
   * **GIF walkthrough of all required and optional stories (using LICEcap)**
   
-  ![screenshot] (/Week4hw-3.gif?raw=true "GIF")
+  ![screenshot] (/Week4hw-4.gif?raw=true "GIF")
