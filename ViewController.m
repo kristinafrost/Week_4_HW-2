@@ -17,6 +17,7 @@
 @property (nonatomic) UIPinchGestureRecognizer *stickerPinchGesture;
 @property (nonatomic) UIRotationGestureRecognizer *stickerRotateGesture;
 - (IBAction)onDrawerPan:(UIPanGestureRecognizer *)sender;
+@property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *drawerPan;
 
 - (void)stickerDidPan:(UIPanGestureRecognizer *)panGesture;
 - (void)stickerDidPinch:(UIPinchGestureRecognizer *)pinchGesture;
@@ -67,6 +68,39 @@ float currentSwipeViewYPosition;
     
 }
 
+
+- (IBAction)onDrawerPan:(UIPanGestureRecognizer *)sender {
+    CGPoint point = [sender locationInView:self.view];
+    
+    //news horizontally scrolls!
+    
+    self.drawerScrollView.contentSize = self.drawerView.frame.size;
+    [self.drawerScrollView setScrollEnabled:true];
+    
+    //begin panning stuffs
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        
+        
+    }
+    
+    //panning continues stuffs
+    else if (sender.state == UIGestureRecognizerStateChanged) {
+        if (point.y >= (self.view.window.frame.size.height - self.drawerScrollView.frame.size.height/2)){
+            self.drawerScrollView.center = CGPointMake(self.drawerScrollView.center.x, point.y);
+            self.drawerPan.enabled = NO;
+        }
+        
+    }
+    
+    //panning ends stuffs
+    else if (sender.state == UIGestureRecognizerStateEnded) {
+        
+        
+        
+    }
+    
+}
+
 - (IBAction)onPan:(UIPanGestureRecognizer *)sender {
     
     CGPoint translation = [sender translationInView:self.view];
@@ -106,44 +140,6 @@ float currentSwipeViewYPosition;
     
 }
 
-
-- (IBAction)onDrawerPan:(UIPanGestureRecognizer *)sender {
-    CGPoint point = [sender locationInView:self.view];
-
-    //news horizontally scrolls!
-    
-    self.drawerScrollView.contentSize = self.drawerView.frame.size;
-    [self.drawerScrollView setScrollEnabled:true];
-    
-    //begin panning stuffs
-    if (sender.state == UIGestureRecognizerStateBegan) {
-  
-        
-    }
-    
-    //panning continues stuffs
-    else if (sender.state == UIGestureRecognizerStateChanged) {
-        if (point.y >= (self.view.window.frame.size.height - self.drawerScrollView.frame.size.height/2)){
-            self.drawerScrollView.center = CGPointMake(self.drawerScrollView.center.x, point.y);
-        }
-        
-    }
-    
-    //panning ends stuffs
-    else if (sender.state == UIGestureRecognizerStateEnded) {
-        
-  
-        
-    }
-//    
-//    NSArray* gestureRecognizers = [self.drawerScrollView gestureRecognizers];
-//    for (UIGestureRecognizer* recog in gestureRecognizers) {
-//        if ( [recog isKindOfClass:[UIPanGestureRecognizer class]] )
-//            [recog removeTarget:self.drawerScrollView.delegate action:@selector(scrollViewDidScroll:)];
-//    }
-
-    
-}
 
 - (void)stickerDidPan:(UIPanGestureRecognizer *)panGesture {
     NSLog(@"panning sticker");
